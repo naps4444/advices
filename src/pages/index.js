@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import { useEffect } from "react";
 import { useState } from "react";
 import axios from 'axios';
-import SpinningImage from "@/Component/Spin";
 
 
 
@@ -13,8 +12,6 @@ export default function Home() {
 
   const [adviceData, setAdviceDate] = useState("name");
 
-  //get data from an api endpoint
-  //variables re used to store input
   const fetchData = async ()=>{
     try{
       const res = await axios.get("https://api.adviceslip.com/advice")
@@ -35,7 +32,28 @@ export default function Home() {
   },[])
 
   console.log(adviceData);
+
+
+
+  const [isSpinning, setIsSpinning] = useState(false);
+
+  const spinClick = () => {
+    setIsSpinning(!isSpinning);
+  };
+
+
+
+
+
+
+
   
+
+  const handleClick = () => {
+    fetchData(); 
+    spinClick(); 
+   
+  };
 
 
   return (
@@ -59,11 +77,17 @@ export default function Home() {
         
         </div>
 
-        <div onClick={fetchData} className="bg-[#52ffa8]  hover:shadow-[0px_4px_35px_#52ffa8] hover:saturate-100 w-[70px] h-[70px] p-5 flex justify-center items-center  rounded-full absolute -bottom-9  transition duration-300 ease-in-out">
-          <SpinningImage/>
+        <div onClick={handleClick} className="bg-[#52ffa8]  hover:shadow-[0px_4px_35px_#52ffa8] hover:saturate-100 w-[70px] h-[70px] p-5 flex justify-center items-center  rounded-full absolute -bottom-9  transition duration-300 ease-in-out">
 
 
-          {/* <Image src="/icon-dice.svg" width={200} height={200} alt="" /> */}
+        <Image
+      src="/icon-dice.svg"
+      alt="Spinning"
+      width={200} height={200} 
+      className={`spin ${isSpinning ? 'spin-active' : ''}`}
+    />
+
+
         </div>
 
 
